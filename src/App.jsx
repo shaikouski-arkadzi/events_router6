@@ -8,10 +8,12 @@ import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
 import NewEventPage from './pages/NewEvent';
 import RootLayout from './pages/Root';
-import {loader as eventsLoader} from './pages/Events.loader';
-import {loader as eventDetailLoader} from './pages/EventDetail.loader';
-import {action as eventDetailAction} from './pages/EventDetail.action';
-import {action as formAction} from './components/EventForm.action';
+import NewsletterPage from './pages/Newsletter';
+import { loader as eventsLoader } from './pages/Events.loader';
+import { loader as eventDetailLoader } from './pages/EventDetail.loader';
+import { action as eventDetailAction } from './pages/EventDetail.action';
+import { action as formAction } from './components/EventForm.action';
+import { action as newsletterAction } from './pages/NewsletterPage.action';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,11 @@ const router = createBrowserRouter([
             action: formAction
           },
         ],
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
       },
     ],
   },
