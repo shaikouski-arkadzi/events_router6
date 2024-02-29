@@ -4,11 +4,13 @@ import EditEventPage from './pages/EditEvent';
 import ErrorPage from './pages/Error';
 import EventDetailPage from './pages/EventDetail';
 import EventsPage from './pages/Events';
-import {loader as eventsLoader} from './pages/Events.loader';
 import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
 import NewEventPage from './pages/NewEvent';
 import RootLayout from './pages/Root';
+import {loader as eventsLoader} from './pages/Events.loader';
+import {loader as eventDetailLoader} from './pages/EventDetail.loader';
+import {action as newEventAction} from './pages/NewEvent.action';
 
 const router = createBrowserRouter([
   {
@@ -26,9 +28,24 @@ const router = createBrowserRouter([
             element: <EventsPage />,
             loader: eventsLoader,
           },
-          { path: ':eventId', element: <EventDetailPage /> },
-          { path: 'new', element: <NewEventPage /> },
-          { path: ':eventId/edit', element: <EditEventPage /> },
+          {
+            path: ':eventId',
+            //используется чтоб дочерние route могли использовать родительский loader
+            id: 'event-detail',
+            loader: eventDetailLoader,
+            children: [
+              {
+                index: true,
+                element: <EventDetailPage />,
+              },
+              { path: 'edit', element: <EditEventPage /> },
+            ],
+          },
+          { 
+            path: 'new',
+            element: <NewEventPage />,
+            action: newEventAction
+          },
         ],
       },
     ],

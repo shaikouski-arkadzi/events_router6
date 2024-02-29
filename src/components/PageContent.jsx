@@ -1,5 +1,6 @@
 import classes from './PageContent.module.css';
 
+// eslint-disable-next-line react/prop-types
 function PageContent({ title, children }) {
   return (
     <div className={classes.content}>
