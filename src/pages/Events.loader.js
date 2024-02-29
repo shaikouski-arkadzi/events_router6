@@ -1,7 +1,8 @@
+import { defer } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 
-export const loader = async() => {
+const loadEvents = async() => {
   try {
     const collectionRef = collection(db, 'events')
     const response = await getDocs(collectionRef);
@@ -13,4 +14,10 @@ export const loader = async() => {
   } catch (err) {
     throw JSON.parse(JSON.stringify(err))
   }
+};
+
+export const loader = () => {
+  return defer({
+    events: loadEvents(),
+  });
 };
