@@ -15,7 +15,7 @@ import { loader as eventDetailLoader } from './pages/EventDetail.loader';
 import { action as eventDetailAction } from './pages/EventDetail.action';
 import { action as formAction } from './components/EventForm.action';
 import { action as newsletterAction } from './pages/NewsletterPage.action';
-
+import { action as authenticationAction } from './pages/Authentication.action';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +60,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'auth',
-        element: <AuthenticationPage />
+        element: <AuthenticationPage />,
+        action: authenticationAction,
       },
       {
         path: 'newsletter',
