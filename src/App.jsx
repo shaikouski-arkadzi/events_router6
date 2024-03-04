@@ -13,6 +13,7 @@ import AuthenticationPage from './pages/Authentication';
 import { loader as eventsLoader } from './pages/Events.loader';
 import { loader as eventDetailLoader } from './pages/EventDetail.loader';
 import { loader as rootLoader } from './pages/Root.loader';
+import { loader as eventFormLoader } from './components/EventForm.loader';
 import { action as eventDetailAction } from './pages/EventDetail.action';
 import { action as formAction } from './components/EventForm.action';
 import { action as newsletterAction } from './pages/NewsletterPage.action';
@@ -51,14 +52,16 @@ const router = createBrowserRouter([
               { 
                 path: 'edit',
                 element: <EditEventPage />,
-                action: formAction 
+                action: formAction,
+                loader: eventFormLoader
               },
             ],
           },
           { 
             path: 'new',
             element: <NewEventPage />,
-            action: formAction
+            action: formAction,
+            loader: eventFormLoader
           },
         ],
       },
