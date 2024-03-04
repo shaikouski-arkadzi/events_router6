@@ -2,19 +2,35 @@
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
+import { useState } from 'react';
 
 function EventForm({ method, event }) {
+  console.log(event);
   const navigate = useNavigate();
   const navigation = useNavigation();
+  const [imageUrl, setImageUrl] = useState('');
 
   const isSubmitting = navigation.state === 'submitting';
 
-  function cancelHandler() {
+  const cancelHandler = () => {
     navigate('..');
   }
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <Form method={method} className={classes.form}>
+    <Form method={method} className={classes.form} encType="multipart/form-data">
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -28,12 +44,12 @@ function EventForm({ method, event }) {
       <p>
         <label htmlFor="image">Image</label>
         <input
-          id="image"
-          type="url"
-          name="image"
-          required
-          defaultValue={event ? event.image : ''}
+          type="file"
+          id="file"
+          name="file"
+          onChange={handleFileChange}
         />
+        <img width={100} src={imageUrl || event?.image} alt={event?.title} />
       </p>
       <p>
         <label htmlFor="date">Date</label>

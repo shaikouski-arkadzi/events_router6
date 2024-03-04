@@ -1,18 +1,20 @@
 import { defer } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
-import { db } from '../firebase';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { db, storage } from '../firebase';
 
 const loadEvents = async() => {
   try {
-    const collectionRef = collection(db, 'events')
+    const collectionRef = collection(db, 'events');
     const response = await getDocs(collectionRef);
-    const filteredData = response.docs.map(doc => ({
+    const filteredData = await Promise.all(response.docs.map(async doc => ({
       ...doc.data(),
+      image: await getDownloadURL(ref(storage, doc.data().image)),
       id: doc.id
-    }))
+    })));
     return filteredData;
   } catch (err) {
-    throw JSON.parse(JSON.stringify(err))
+    throw JSON.parse(JSON.stringify(err));
   }
 };
 
