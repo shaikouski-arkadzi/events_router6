@@ -1,9 +1,20 @@
 import { NavLink } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
 
 import classes from './MainNavigation.module.css';
 import NewsletterSignup from './NewsletterSignup';
+import { auth } from '../firebase';
 
 function MainNavigation() {
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      throw JSON.parse(JSON.stringify(error));
+    }
+  }
+
   return (
     <header className={classes.header}>
       <nav>
@@ -48,6 +59,9 @@ function MainNavigation() {
             >
               Authentication
             </NavLink>
+          </li>
+          <li>
+            <button onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </nav>

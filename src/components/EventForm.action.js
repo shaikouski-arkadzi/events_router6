@@ -1,8 +1,9 @@
 import { redirect } from 'react-router-dom';
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 
 export const action = async({ request, params }) => {
+ 
   const data = await request.formData();
   
   const eventData = {
@@ -10,6 +11,7 @@ export const action = async({ request, params }) => {
     image: data.get('image'),
     date: data.get('date'),
     description: data.get('description'),
+    userID: auth?.currentUser?.uid
   };
 
   try {
