@@ -28,7 +28,10 @@ export const action = async({ request, params }) => {
     }
     if(method === 'PATCH') {
       const docRef = doc(db, 'events', params.eventId);
-      await updateDoc(docRef, eventData);
+      const fileRef = ref(storage, `events/${file.name}`);
+      const uploadFile = await uploadBytes(fileRef, file);
+      const newData = {...eventData, image: uploadFile.metadata.fullPath};
+      await updateDoc(docRef, newData);
       return redirect('..');
     }
   } catch (err) {
