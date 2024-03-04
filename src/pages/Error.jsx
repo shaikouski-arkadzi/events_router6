@@ -1,10 +1,10 @@
-import { useRouteError } from 'react-router-dom';
-import MainNavigation from '../components/MainNavigation';
+import { useNavigate, useRouteError } from 'react-router-dom';
 
 import PageContent from '../components/PageContent';
 
 function ErrorPage() {
   const error = useRouteError();
+  const navigate = useNavigate();
 
   let title = error.name || 'An error occurred!';
   let message = error.message || 'Something went wrong!';
@@ -23,9 +23,14 @@ function ErrorPage() {
     message = error.code;
   }
 
+  const handleBack = () => {
+    navigate('..')
+  }
+
   return (
     <PageContent title={title}>
       <p>{message}</p>
+      <button onClick={handleBack}>Назад</button>
     </PageContent>
   );
 }

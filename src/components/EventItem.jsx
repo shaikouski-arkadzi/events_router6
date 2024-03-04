@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Link, useSubmit } from 'react-router-dom';
+import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom';
 
 import classes from './EventItem.module.css';
 
 function EventItem({ event }) {
   const submit = useSubmit();
+  const userData = useRouteLoaderData('root');
 
   const startDeleteHandler = () => {
     submit(null, { method: 'delete' });
@@ -16,10 +17,12 @@ function EventItem({ event }) {
       <h1>{event.title}</h1>
       <time>{event.date}</time>
       <p>{event.description}</p>
-      <menu className={classes.actions}>
-        <Link to="edit">Edit</Link>
-        <button onClick={startDeleteHandler}>Delete</button>
-      </menu>
+      {event.userId === userData?.uid && 
+        <menu className={classes.actions}>
+          <Link to="edit">Edit</Link>
+          <button onClick={startDeleteHandler}>Delete</button>
+        </menu>
+      }
     </article>
   );
 }

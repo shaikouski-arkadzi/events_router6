@@ -3,7 +3,6 @@ import { getFirestore } from "firebase/firestore"
 import { getAuth, GoogleAuthProvider } from "firebase/auth"
 import firebaseConfig from "./firebase.config"
 
-
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);

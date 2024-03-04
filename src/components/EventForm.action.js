@@ -11,7 +11,7 @@ export const action = async({ request, params }) => {
     image: data.get('image'),
     date: data.get('date'),
     description: data.get('description'),
-    userID: auth?.currentUser?.uid
+    userId: auth?.currentUser?.uid
   };
 
   try {

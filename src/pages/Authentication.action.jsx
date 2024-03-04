@@ -20,15 +20,17 @@ export const action = async({ request }) => {
   try {
     if (mode === 'login') {
       if (signInMethod==='emailPassword') {
-        await signInWithEmailAndPassword(auth, authData.email, authData.password);
-        redirect('/')
+        const userData = await signInWithEmailAndPassword(auth, authData.email, authData.password);
+        localStorage.setItem('user', JSON.stringify(userData.user))
+        return redirect('/')
       } else if (signInMethod==='google') {
-        await signInWithPopup(auth, googleProvider)
-        redirect('/')
+        const userData = await signInWithPopup(auth, googleProvider)
+        localStorage.setItem('user', JSON.stringify(userData.user))
+        return redirect('/')
       }
     } else if (mode === 'signup') {
       await createUserWithEmailAndPassword(auth, authData.email, authData.password);
-      redirect('/')
+      return redirect('/')
     }
   } catch (err) {
     const errorObject = JSON.parse(JSON.stringify(err));
@@ -39,6 +41,5 @@ export const action = async({ request }) => {
     }
   }
 
-  // TODO: manage that token
   return null;
 }

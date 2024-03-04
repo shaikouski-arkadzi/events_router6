@@ -1,5 +1,5 @@
 import { auth } from "../firebase";
 
 export const loader = () => {
-  return auth?.currentUser;
+  return JSON.parse(localStorage.getItem('user'));
 };
