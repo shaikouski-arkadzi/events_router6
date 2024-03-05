@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import EditEventPage from './pages/EditEvent';
@@ -9,7 +10,7 @@ import HomePage from './pages/Home';
 import NewEventPage from './pages/NewEvent';
 import RootLayout from './pages/Root';
 import NewsletterPage from './pages/Newsletter';
-import AuthenticationPage from './pages/Authentication';
+//import AuthenticationPage from './pages/Authentication';
 import { loader as eventsLoader } from './pages/Events.loader';
 import { loader as eventDetailLoader } from './pages/EventDetail.loader';
 import { loader as rootLoader } from './pages/Root.loader';
@@ -17,8 +18,10 @@ import { loader as eventFormLoader } from './components/EventForm.loader';
 import { action as eventDetailAction } from './pages/EventDetail.action';
 import { action as formAction } from './components/EventForm.action';
 import { action as newsletterAction } from './pages/NewsletterPage.action';
-import { action as authenticationAction } from './pages/Authentication.action';
+//import { action as authenticationAction } from './pages/Authentication.action';
 import { action as logoutAction } from './pages/Logout.action';
+
+const AuthenticationPage = lazy(() => import('./pages/Authentication'));
 
 const router = createBrowserRouter([
   {
@@ -67,8 +70,13 @@ const router = createBrowserRouter([
       },
       {
         path: 'auth',
-        element: <AuthenticationPage />,
-        action: authenticationAction,
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <AuthenticationPage />
+          </Suspense>
+        ),
+        action: (param) =>
+          import('./pages/Authentication.action').then((module) => module.loader(param)),
       },
       {
         path: 'newsletter',
