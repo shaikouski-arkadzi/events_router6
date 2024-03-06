@@ -76,7 +76,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
         action: (param) =>
-          import('./pages/Authentication.action').then((module) => module.loader(param)),
+          import('./pages/Authentication.action').then((module) => module.action(param)),
       },
       {
         path: 'newsletter',
