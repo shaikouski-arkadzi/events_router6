@@ -4,9 +4,8 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { db, auth, storage } from '../firebase';
 
 export const action = async({ request, params }) => {
-  
   const data = await request.formData();
-
+  console.log(data.get('file'), data.get('image'));
   const file = data.get('file');
   
   const eventData = {
@@ -27,10 +26,16 @@ export const action = async({ request, params }) => {
       return redirect('/events');
     }
     if(method === 'PATCH') {
+      let newData;
+      if(file.name === '') {
+        newData = {...eventData, image: data.get('image')};
+      } else {
+        const fileRef = ref(storage, `events/${file.name}`);
+        const uploadFile = await uploadBytes(fileRef, file);
+        newData = {...eventData, image: uploadFile.metadata.fullPath};
+        console.log(newData);
+      }
       const docRef = doc(db, 'events', params.eventId);
-      const fileRef = ref(storage, `events/${file.name}`);
-      const uploadFile = await uploadBytes(fileRef, file);
-      const newData = {...eventData, image: uploadFile.metadata.fullPath};
       await updateDoc(docRef, newData);
       return redirect('..');
     }

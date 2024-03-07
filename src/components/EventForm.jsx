@@ -5,7 +5,6 @@ import classes from './EventForm.module.css';
 import { useState } from 'react';
 
 function EventForm({ method, event }) {
-  console.log(event);
   const navigate = useNavigate();
   const navigation = useNavigation();
   const [imageUrl, setImageUrl] = useState('');
@@ -48,6 +47,13 @@ function EventForm({ method, event }) {
           id="file"
           name="file"
           onChange={handleFileChange}
+        />
+        <input
+          id="image"
+          name="image"
+          value={event?.image}
+          style={{display:'none'}} 
+          readOnly
         />
         <img width={100} src={imageUrl || event?.image} alt={event?.title} />
       </p>
